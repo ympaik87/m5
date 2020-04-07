@@ -1,16 +1,22 @@
-from os import cpu_count
 import pathlib
-import yaml
-import pandas as pd
-from pandas_profiling import ProfileReport
-from tqdm import tqdm
+from os import cpu_count
+
 import matplotlib
+import pandas as pd
+import yaml
+from tqdm import tqdm
+
+from pandas_profiling import ProfileReport
+
 matplotlib.use('Agg')
 
 
 def run(f_path):
     title = f_path.stem
-    res_p = f'D:/kaggle/m5/res/{title}.html'
+    out_dir = pathlib.Path('D:/kaggle/m5/res/profiles/')
+    if not out_dir.exists():
+        pathlib.Path.mkdir(out_dir)
+    res_p = out_dir/f'{title}.html'
     with open('pandas_profiling_config.yaml', 'r') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
     config['title'] = title
